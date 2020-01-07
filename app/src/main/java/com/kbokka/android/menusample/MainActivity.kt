@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ListView
@@ -31,6 +32,20 @@ class MainActivity : AppCompatActivity() {
   override fun onCreateOptionsMenu(menu: Menu): Boolean {
     menuInflater.inflate(R.menu.menu_options_menu_list, menu)
     return super.onCreateOptionsMenu(menu)
+  }
+
+  override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    when (item.itemId) {
+      R.id.menuListOptionTeishoku -> _menuList = createTeishokuList()
+      R.id.menuListOptionCurry -> _menuList = createCurryList()
+    }
+
+    val lvMenu = findViewById<ListView>(R.id.lvMenu)
+    val adapter = SimpleAdapter(applicationContext, _menuList, R.layout.row, FROM, TO)
+
+    lvMenu.adapter = adapter
+
+    return super.onOptionsItemSelected(item)
   }
 
   private fun createTeishokuList(): MutableList<MutableMap<String, Any>> {
