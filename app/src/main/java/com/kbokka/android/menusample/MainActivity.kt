@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ListView
 import android.widget.SimpleAdapter
+import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
 
@@ -55,6 +56,20 @@ class MainActivity : AppCompatActivity() {
     super.onCreateContextMenu(menu, view, menuInfo)
     menuInflater.inflate(R.menu.menu_context_menu_list, menu)
     menu.setHeaderTitle(R.string.menu_list_context_header)
+  }
+
+  override fun onContextItemSelected(item: MenuItem): Boolean {
+    val info = item.menuInfo as AdapterView.AdapterContextMenuInfo
+    val listPosition = info.position
+    val menu = _menuList!![listPosition]
+    when (item.itemId) {
+      R.id.menuListContextDesc -> {
+        val desc = menu["desc"] as String
+        Toast.makeText(applicationContext, desc, Toast.LENGTH_LONG).show()
+      }
+      R.id.menuListContextOrder -> order(menu)
+    }
+    return super.onContextItemSelected(item)
   }
 
   private fun createTeishokuList(): MutableList<MutableMap<String, Any>> {
